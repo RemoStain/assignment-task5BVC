@@ -1,3 +1,8 @@
+/**
+ * AsyncStorage-backed caching utilities.
+ * Implements a network first strategy with fallback to cached data,
+ * plus helpers for saving and retrieving serialized values.
+ */
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const getFromNetworkFirst = async <T>(key: string, request: Promise<T>): Promise<T> => {

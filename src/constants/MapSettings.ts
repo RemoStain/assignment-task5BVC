@@ -1,3 +1,8 @@
+/**
+* Configuration constants for initial map position, default deltas,
+* and edge padding used across all map components.
+* These values establish the default viewport behavior for the app.
+*/
 import { EdgePadding, LatLng, Region } from 'react-native-maps';
 
 export const DEFAULT_POSITION: LatLng = {

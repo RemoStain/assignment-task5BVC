@@ -1,3 +1,12 @@
+/**
+ * Map screen displaying event locations.
+ *
+ * Responsibilities:
+ * - Render Google-powered map with custom map styling
+ * - Display event markers loaded from static list
+ * - Adjust map viewport to fit events via `fitToCoordinates`
+ * - Provide quick actions: create event + logout
+ */
 import { Feather } from '@expo/vector-icons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { StackScreenProps } from '@react-navigation/stack';
@@ -15,10 +24,18 @@ export default function EventsMap(props: StackScreenProps<any>) {
     const authenticationContext = useContext(AuthenticationContext);
     const mapViewRef = useRef<MapView>(null);
 
-    const handleNavigateToCreateEvent = () => {};
+    /**
+     * Navigation handlers (currently stubs)
+     */
+    const handleNavigateToCreateEvent = () => { };
+    const handleNavigateToEventDetails = () => { };
 
-    const handleNavigateToEventDetails = () => {};
-
+    /**
+     * Logout:
+     * - Remove cached auth details
+     * - Clear AuthenticationContext
+     * - Redirect to Login screen
+     */
     const handleLogout = async () => {
         AsyncStorage.multiRemove(['userInfo', 'accessToken']).then(() => {
             authenticationContext?.setValue(undefined);
@@ -26,6 +43,13 @@ export default function EventsMap(props: StackScreenProps<any>) {
         });
     };
 
+    /**
+     * UI Rendering:
+     * - `MapView` covers full screen
+     * - Markers generated from static `events` list
+     * - Footer shows number of events + Create button
+     * - Floating logout button in upper right
+     */
     return (
         <View style={styles.container}>
             <MapView
@@ -50,22 +74,21 @@ export default function EventsMap(props: StackScreenProps<any>) {
                     )
                 }
             >
-                {events.map((event) => {
-                    return (
-                        <Marker
-                            key={event.id}
-                            coordinate={{
-                                latitude: event.position.latitude,
-                                longitude: event.position.longitude,
-                            }}
-                            onPress={handleNavigateToEventDetails}
-                        >
-                            <Image resizeMode="contain" style={{ width: 48, height: 54 }} source={mapMarkerImg} />
-                        </Marker>
-                    );
-                })}
+                {events.map((event) => (
+                    <Marker
+                        key={event.id}
+                        coordinate={{
+                            latitude: event.position.latitude,
+                            longitude: event.position.longitude,
+                        }}
+                        onPress={handleNavigateToEventDetails}
+                    >
+                        <Image resizeMode="contain" style={{ width: 48, height: 54 }} source={mapMarkerImg} />
+                    </Marker>
+                ))}
             </MapView>
 
+            {/* Footer summary + Create event button */}
             <View style={styles.footer}>
                 <Text style={styles.footerText}>X event(s) found</Text>
                 <RectButton
@@ -75,6 +98,8 @@ export default function EventsMap(props: StackScreenProps<any>) {
                     <Feather name="plus" size={20} color="#FFF" />
                 </RectButton>
             </View>
+
+            {/* Logout button */}
             <RectButton
                 style={[styles.logoutButton, styles.smallButton, { backgroundColor: '#4D6F80' }]}
                 onPress={handleLogout}
@@ -85,59 +110,10 @@ export default function EventsMap(props: StackScreenProps<any>) {
     );
 }
 
-const styles = StyleSheet.create({
-    container: {
-        ...StyleSheet.absoluteFillObject,
-        flex: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-    },
-
-    mapStyle: {
-        ...StyleSheet.absoluteFillObject,
-    },
-
-    logoutButton: {
-        position: 'absolute',
-        top: 70,
-        right: 24,
-
-        elevation: 3,
-    },
-
-    footer: {
-        position: 'absolute',
-        left: 24,
-        right: 24,
-        bottom: 40,
-
-        backgroundColor: '#FFF',
-        borderRadius: 16,
-        height: 56,
-        paddingLeft: 24,
-
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-
-        elevation: 3,
-    },
-
-    footerText: {
-        fontFamily: 'Nunito_700Bold',
-        color: '#8fa7b3',
-    },
-
-    smallButton: {
-        width: 56,
-        height: 56,
-        borderRadius: 16,
-
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-});
-
+/**
+ * Static mock event coordinates.
+ * Eventually expected to be replaced with API-driven event data.
+ */
 interface event {
     id: string;
     position: {
@@ -149,30 +125,18 @@ interface event {
 const events: event[] = [
     {
         id: 'e3c95682-870f-4080-a0d7-ae8e23e2534f',
-        position: {
-            latitude: 51.105761,
-            longitude: -114.106943,
-        },
+        position: { latitude: 51.105761, longitude: -114.106943 },
     },
     {
         id: '98301b22-2b76-44f1-a8da-8c86c56b0367',
-        position: {
-            latitude: 51.04112,
-            longitude: -114.069325,
-        },
+        position: { latitude: 51.04112, longitude: -114.069325 },
     },
     {
         id: 'd7b8ea73-ba2c-4fc3-9348-9814076124bd',
-        position: {
-            latitude: 51.01222958257112,
-            longitude: -114.11677222698927,
-        },
+        position: { latitude: 51.01222958257112, longitude: -114.11677222698927 },
     },
     {
         id: 'd1a6b9ea-877d-4711-b8d7-af8f1bce4d29',
-        position: {
-            latitude: 51.010801915407036,
-            longitude: -114.07823592424393,
-        },
+        position: { latitude: 51.010801915407036, longitude: -114.07823592424393 },
     },
 ];

@@ -1,3 +1,11 @@
+/**
+ * Reusable styled button component.
+ *
+ * Responsibilities:
+ * - Render a large tappable button with dynamic color
+ * - Support optional Feather icon
+ * - Allow custom style overrides and "disabled" visual state
+ */
 import React from 'react';
 import { Feather } from '@expo/vector-icons';
 import { StyleSheet, Text } from 'react-native';
@@ -16,6 +24,12 @@ export default function BigButton(props: BigButtonProps) {
     const styles = styling(props);
     const { featherIconName, label, style, onPress } = props;
 
+    /**
+     * Render:
+     * - `RectButton` for native-feeling touch
+     * - Optional icon before label if provided
+     * - Label using Nunito bold typography
+     */
     return (
         <RectButton style={[styles.button, style]} onPress={onPress}>
             {featherIconName && <Feather style={styles.icon} name={featherIconName} size={24} color="#FFF" />}
@@ -24,6 +38,10 @@ export default function BigButton(props: BigButtonProps) {
     );
 }
 
+/**
+ * Dynamically generate styles based on props.
+ * Adds "80" transparency suffix when disabled.
+ */
 const styling = ({ color, disabled }: BigButtonProps) =>
     StyleSheet.create({
         button: {

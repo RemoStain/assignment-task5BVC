@@ -1,5 +1,14 @@
 # Volunteam App
 
+## Project Scope
+This project provides a mobile application that enables users to browse, view, and interact with event-related information. It integrates map functionality, user authentication, caching utilities, and external APIs for retrieving data and uploading images.
+
+Key components:
+- Interactive map for event visualization
+- Login and authentication flow
+- Local caching fallback for network requests
+- Image upload support through external providers
+
 ## Setting up the fake API (json-server)
 
 Update the file `src/services/api.ts`.
@@ -36,3 +45,18 @@ When creating your app build or publishing, import your secret values to EAS run
 ```
 eas secret:push
 ```
+
+## Running the App in Development
+To run the application in a local development environment:
+
+1. Ensure the fake API is running using the json-server instructions above.
+2. Start the Expo development server:
+   IMGBB_API_KEY="insert_your_api_key_here" npx expo start
+
+1. 
+## Running the App
+Once the development environment is active:
+
+1. Use Expo Go (mobile app) to scan the QR code shown in the terminal or browser.
+2. The app will load and connect to your configured mock API.
+3. Ensure your device is on the same network as your development machine to avoid connection issues.

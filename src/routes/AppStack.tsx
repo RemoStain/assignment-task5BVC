@@ -1,3 +1,7 @@
+/**
+ * High-level overview of the navigation stack, including authentication context
+ * wrapping and screen structure for login and event map views.
+ */
 import React, { useState } from 'react';
 
 import { NavigationContainer } from '@react-navigation/native';
